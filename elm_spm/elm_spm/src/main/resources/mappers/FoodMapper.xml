@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.elm_spm.mapper.FoodMapper">
+
+    <!--
+        resultType:
+            a.实体类的属性名必须与列名相同
+            b.如果方法的返回值是List集合，此处写泛型的类型  List<Food>
+            c.如果属性名与列名不同，必须使用resultMap 进行重写关联
+     -->
+    <!--
+    <resultMap id="foodMap" type="food">
+        <id property="foodId" column="food_id"></id>
+        <result property="foodName" column="food_name"></result>
+        <result property="foodExplain" column="food_explain"></result>
+
+    </resultMap>
+    <select id="listFoodByBusinessId" resultMap="foodMap"  parameterType="int">
+
+    </select>-->
+    <select id="listFoodByBusinessId" parameterType="int" resultType="food">
+        select * from food where businessId= #{businessId} order  by foodId
+    </select>
+
+    <select id="getFoodById" parameterType="int" resultType="food">
+        select * from food where foodId = #{foodId}
+    </select>
+
+
+
+</mapper>

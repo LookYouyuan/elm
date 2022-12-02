@@ -1,0 +1,115 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Index from '../views/Index'
+import BusinessList from '../views/BusinessList.vue'
+import BusinessInfo from '../views/BusinessInfo.vue'
+import Login from '../views/Login.vue'
+import Orders from '../views/Orders.vue'
+import UserAddress from '../views/UserAddress.vue'
+import Payment from '../views/Payment.vue'
+import OrderList from '../views/OrderList.vue'
+import AddUserAddress from '../views/AddUserAddress.vue'
+import EditUserAddress from '../views/EditUserAddress.vue'
+import Register from '../views/Register.vue'
+import PayRst from "../views/PayRst";
+import MyIfo from "../views/MyIfo";
+import UpdateUser from "../views/UpdateUser"
+import foodResult from "../views/foodResult"
+import RiderIndex from "../views/RiderIndex";
+import RiderSent from "../views/RiderSent";
+import RiderFoot from "../components/RiderFoot";
+import Tongji from "../views/Tongji";
+Vue.use(VueRouter)
+
+const routes = [{
+		path: '/',
+		name: 'Home',
+		component: Index
+	}, {
+		path: '/index',
+		name: 'Index',
+		component: Index
+	}, {
+		path: '/businessList',
+		name: 'BusinessList',
+		component: BusinessList
+	}, {
+		path: '/businessInfo',
+		name: 'BusinessInfo',
+		component: BusinessInfo
+	}, {
+		path: '/login',
+		name: 'Login',
+		component: Login
+	}, {
+		path: '/orders',
+		name: 'Orders',
+		component: Orders
+	}, {
+		path: '/userAddress',
+		name: 'UserAddress',
+		component: UserAddress
+	}, {
+		path: '/payment',
+		name: 'Payment',
+		component: Payment
+	}, {
+		path: '/orderList',
+		name: 'OrderList',
+		component: OrderList
+	}, {
+		path: '/addUserAddress',
+		name: 'AddUserAddress',
+		component: AddUserAddress
+	}, {
+		path: '/editUserAddress',
+		name: 'EditUserAddress',
+		component: EditUserAddress
+	}, {
+		path: '/register',
+		name: 'Register',
+		component: Register
+	},{
+		path: '/payRst',
+		name: 'PayRst',
+		component: PayRst
+	},{
+		path: '/MyIfo',
+		name: 'MyIfo',
+		component: MyIfo
+	},{
+		path: '/updateUser',
+		name: 'updateUser',
+		component: UpdateUser
+	},{
+		path: '/foodResult',
+		name: 'foodResult',
+		component: foodResult
+	},{
+		path: '/riderIndex',
+		name: 'riderIndex',
+		component: RiderIndex
+	},{
+		path: '/riderSent',
+		name: 'riderSent',
+		component: RiderSent
+	},{
+		path: '/TongJi',
+		name: 'TongJi',
+		component: Tongji
+      }
+]
+
+//解决重复路由报异常问题
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err)
+}
+
+const router = new VueRouter({
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes
+})
+
+export default router

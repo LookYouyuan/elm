@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.elm_spm.mapper.OrdersMapper">
+    <resultMap id="ordersMap" type="orders">
+        <!-- 必须添加id列的说明 -->
+        <id column="orderId" property="orderId"></id>
+        <association property="business" javaType="business" column="businessId"
+            select="com.neu.elm_spm.mapper.BusinessMapper.getBusinessById">
+        </association>
+        <collection property="list" ofType="orderDetailet"
+            column="orderId"
+            select="com.neu.elm_spm.mapper.OrderDetailetMapper.listOrderDetailetByOrderId">
+        </collection>
+
+    </resultMap>
+    <resultMap id="ordersMap2" type="orders">
+        <!-- 必须添加id列的说明 -->
+        <id column="orderDate" property="orderDate"></id>
+        <association property="business" javaType="business" column="businessId"
+                     select="com.neu.elm_spm.mapper.BusinessMapper.getBusinessById">
+        </association>
+   <!--     <collection property="list" ofType="orderDetailet"
+                    column="orderId"
+                    select="com.neu.elm_spm.mapper.OrderDetailetMapper.listOrderDetailetByOrderId">
+        </collection>-->
+    </resultMap>
+    <resultMap id="ordersMap3" type="orders">
+        <!-- 必须添加id列的说明 -->
+        <id column="orderId" property="orderId"></id>
+
+        <association property="DeliveryAddress" javaType="DeliveryAddress" column="daId"
+                     select="com.neu.elm_spm.mapper.DeliveryAddressMapper.getDeliveryAddressById">
+        </association>
+
+    </resultMap>
+    <select id="getOrdersById" parameterType="int" resultMap="ordersMap">
+        select * from orders where orderId=#{orderId}
+    </select>
+
+    <select id="listOrdersByUserId" parameterType="string" resultMap="ordersMap">
+        select * from orders where userId=#{userId}
+    </select>
+    <select id="queryAddress" resultType="Map">
+        select * from deliveryaddress where daId in (select daId from orders where orderState = 2)
+    </select>
+    <select id="querySending" resultMap="ordersMap3">
+        select * from orders where orderState = 3
+    </select>
+    <!--
+        如果进行insert操作时需要返回主键值
+        useGeneratedKeys="true"  设置开启
+        keyProperty="orderId"    使用orderId属性存放生成的主键值
+     -->
+    <insert id="saveOrders" parameterType="orders" useGeneratedKeys="true" keyProperty="orderId">
+        insert into orders values(null,#{userId},#{businessId},#{orderDate},#{orderTotal},#{daId},0)
+    </insert>
+    <select id="querymoney"  resultMap="ordersMap2">
+        select * from orders where orderState =4;
+    </select>
+
+
+</mapper>

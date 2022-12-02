@@ -1,0 +1,21 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.FoodMapper">
+    <select id="queryFood" parameterType="int" resultType="Food">
+        SELECT * FROM food where businessId=#{businessId}
+    </select>
+
+    <select id="queryFoodById" parameterType="int" resultType="Food">
+        SELECT * FROM food where foodId=#{foodId}
+    </select>
+
+    <insert id="addFood" parameterType="Food">
+        insert into food ( foodName, foodExplain,foodPrice, foodImg, businessId ) values ( #{foodName}, #{foodExplain}, #{foodPrice}, #{foodImg}, #{businessId} );
+    </insert>
+
+    <update id="updateFood" parameterType="Food">
+        update food set foodExplain=#{foodExplain}, foodPrice=#{foodPrice} where foodId=#{foodId}
+    </update>
+
+</mapper>

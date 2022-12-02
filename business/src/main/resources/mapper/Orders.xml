@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.OrdersMapper">
+    <select id="queryOrders" parameterType="int" resultType="Orders">
+        SELECT * FROM orders where businessId=#{businessId} order by orderState
+    </select>
+
+    <select id="queryOrdersById" parameterType="int" resultType="Orders">
+        SELECT * FROM orders where orderId=#{orderId}
+    </select>
+
+    <update id="updateOrders" parameterType="Orders">
+        update orders set orderState=#{orderState} where orderId=#{orderId}
+    </update>
+
+
+</mapper>

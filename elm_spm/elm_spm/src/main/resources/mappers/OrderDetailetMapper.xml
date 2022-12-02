@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.elm_spm.mapper.OrderDetailetMapper">
+
+    <insert id="saveOrderDetailet" parameterType="list">
+        insert into OrderDetailet(orderId,foodId,quantity,status) values
+        <foreach collection="list" item="od" separator=",">
+            (#{od.orderId},#{od.foodId},#{od.quantity},0)
+        </foreach>
+    </insert>
+    <resultMap id="OrderDetailetMap" type="orderDetailet">
+        <id column="odId" property="odId"></id>
+        <result column="foodId" property="foodId"></result>
+        <result column="orderId" property="orderId"></result>
+        <result column="quantity" property="quantity"></result>
+        <association property="food" javaType="food" column="foodId"
+            select="com.neu.elm_spm.mapper.FoodMapper.getFoodById"></association>
+    </resultMap>
+
+    <select id="listOrderDetailetByOrderId" parameterType="int" resultMap="OrderDetailetMap">
+        select * from OrderDetailet where orderId=#{orderId}
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.elm_spm.mapper.UserMapper">
+    <insert id="saveUser" parameterType="user">
+        insert into user (userId,password,userName,userSex,delTag)
+        values(#{userId},#{password},#{userName},#{userSex},1)
+    </insert>
+    <select id="getUserByIdAndPwd" parameterType="user" resultType="user">
+        select * from user
+        <where>
+            <if test="userId != null and  userId != ''">
+                and userId =  #{userId}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <!-- 按照userId查询，出现的次数 -->
+    <select id="getUserById" parameterType="string" resultType="int">
+        select count(userId) from user where userid=#{userId}
+    </select>
+    <update id="updateUser" parameterType="user">
+        update user set userName = #{userName}, password = #{password}, userSex = #{userSex} where userId = '1'
+    </update>
+
+    <select id="getUser" parameterType="user" resultType="user">
+        select * from user
+        <where>
+            <if test="userId != null and  userId != ''">
+                and userId =  #{userId}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.elm_spm.mapper.CartMapper">
+    <insert id="saveCart" parameterType="cart">
+        insert into cart(foodId,businessId,userId,quantity)
+        values(#{foodId},#{businessId},#{userId},1)
+    </insert>
+
+    <update id="updateCart" parameterType="cart">
+        update cart set quantity=#{quantity}
+        where foodId=#{foodId} and businessId =#{businessId} and userId=#{userId}
+    </update>
+
+    <delete id="removeCart" parameterType="cart">
+        delete from cart
+        <where>
+            userId=#{userId}
+            <if test="businessId != null and businessId != ''">
+                and businessId =#{businessId}
+            </if>
+            <if test="foodId != null and foodId != ''">
+                and foodId = #{foodId}
+            </if>
+        </where>
+    </delete>
+    <resultMap id="cartMap" type="cart">
+        <!-- 必须要有一个id 作为主键使用 -->
+        <id column="cartId" property="cartId"></id>
+        <result property="foodId" column="foodId"></result>
+        <result property="businessId" column="businessId"></result>
+        <result property="userId" column="userId"></result>
+        <result property="quantity" column="quantity"></result>
+        <!--
+            Cart类中的food属性是Food类型的对象，由FoodMapper中的getFoodId方法提供数据
+            方法的参数是foodId列的值
+         -->
+        <association property="food" javaType="Food" column="foodId"
+            select="com.neu.elm_spm.mapper.FoodMapper.getFoodById">
+        </association>
+        <association property="business" javaType="Business"
+            select="com.neu.elm_spm.mapper.BusinessMapper.getBusinessById"
+            column="businessId"></association>
+    </resultMap>
+    <select id="listCart" parameterType="cart" resultMap="cartMap">
+        select * from cart
+        <where>
+            userId=#{userId}
+            <if test="businessId != null  and businessId != ''">
+                and businessId = #{businessId}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gjm.business.mapper.BusinessMapper">
+    <select id="login" parameterType="Business" resultType="Business">
+        select * from business where businessId=#{businessId} and password= #{password}
+    </select>
+    <update id="updatePassword" parameterType="Business">
+        update business set password=#{newpw} where businessName=#{businessName} and password=#{password}
+    </update>
+
+    <update id="updatedeliveryPrice" parameterType="Business">
+        update business set deliveryPrice=#{deliveryPrice} where businessId=#{businessId}
+    </update>
+    <select id="queryBusiness" parameterType="int" resultType="Business">
+        SELECT * FROM business where businessId=#{businessId}
+    </select>
+</mapper>
